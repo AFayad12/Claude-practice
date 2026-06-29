@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude Code Quiz</title>
+  <title>Abdo | Quiz</title>
   <style>
     * {
       box-sizing: border-box;
@@ -22,30 +22,32 @@
     }
 
     nav {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 16px 32px;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 16px 40px;
       display: flex;
-      gap: 24px;
+      gap: 32px;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     nav a {
-      color: #d9b8ff;
+      color: rgba(255, 255, 255, 0.75);
       text-decoration: none;
       font-size: 1rem;
+      font-weight: 500;
       padding: 6px 12px;
-      border-radius: 6px;
-      transition: background 0.2s;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
     }
 
     nav a:hover {
-      background: rgba(255, 255, 255, 0.12);
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
     }
 
     nav a.active {
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      font-weight: bold;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
     }
 
     .container {
@@ -300,6 +302,7 @@
       "Good start! A little more practice and you'll nail it.",
       "Not bad! You know the basics — keep exploring!",
       "Great job! You clearly know your Claude Code stuff.",
+      "So close! One more try and you'll nail it.",
       "Perfect score! You're a Claude Code pro!"
     ];
 

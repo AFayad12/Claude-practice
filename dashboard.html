@@ -500,6 +500,27 @@
       padding: 16px 0;
       grid-column: 1 / -1;
     }
+
+    .note-title-input {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+
+    .note-title-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .note-title-input:focus {
+      border-color: rgba(255, 255, 255, 0.5);
+    }
   </style>
 </head>
 <body>
@@ -564,7 +585,7 @@
       <div class="card card-full">
         <h2>Notes</h2>
         <div class="notes-form">
-          <input type="text" class="todo-input-row" id="noteTitle" placeholder="Title (optional)..." style="padding:10px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:#fff;font-size:0.95rem;font-family:inherit;outline:none;width:100%;" />
+          <input type="text" class="note-title-input" id="noteTitle" placeholder="Title (optional)..." />
           <textarea class="notes-textarea" id="noteBody" placeholder="Write your note here..." rows="4"></textarea>
           <div>
             <button class="btn btn-add" id="noteSaveBtn" onclick="saveNote()">Save Note</button>
@@ -578,7 +599,11 @@
 
   <script>
     // --- To-Do List ---
-    const tasks = [];
+    const tasks = JSON.parse(localStorage.getItem('abdo-tasks') || '[]');
+
+    function saveTasks() {
+      localStorage.setItem('abdo-tasks', JSON.stringify(tasks));
+    }
 
     function renderTasks() {
       const list = document.getElementById('todoList');
@@ -601,11 +626,13 @@
       if (!text) return;
       tasks.push(text);
       input.value = '';
+      saveTasks();
       renderTasks();
     }
 
     function deleteTask(index) {
       tasks.splice(index, 1);
+      saveTasks();
       renderTasks();
     }
 
@@ -628,6 +655,7 @@
       const newText = input.value.trim();
       if (!newText) return;
       tasks[index] = newText;
+      saveTasks();
       renderTasks();
     }
 
@@ -638,6 +666,8 @@
     document.getElementById('todoInput').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') addTask();
     });
+
+    renderTasks();
 
     // --- Pomodoro Timer ---
     let timeLeft = 25 * 60;
@@ -719,13 +749,18 @@
     });
 
     // --- Goals Tracker ---
-    const goals = [
+    const defaultGoals = [
       { text: 'Drink 8 glasses of water', checked: false },
       { text: 'Exercise for 30 minutes', checked: false },
       { text: 'Read for 20 minutes', checked: false },
       { text: 'No social media before noon', checked: false },
       { text: 'Get 8 hours of sleep', checked: false },
     ];
+    const goals = JSON.parse(localStorage.getItem('abdo-goals') || JSON.stringify(defaultGoals));
+
+    function saveGoals() {
+      localStorage.setItem('abdo-goals', JSON.stringify(goals));
+    }
 
     function renderGoals() {
       const list = document.getElementById('goalsList');
@@ -747,16 +782,19 @@
       if (!text) return;
       goals.push({ text, checked: false });
       input.value = '';
+      saveGoals();
       renderGoals();
     }
 
     function deleteGoal(index) {
       goals.splice(index, 1);
+      saveGoals();
       renderGoals();
     }
 
     function toggleGoal(index) {
       goals[index].checked = !goals[index].checked;
+      saveGoals();
       updateProgress();
     }
 
