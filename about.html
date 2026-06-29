@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abdo | About</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #2d0057;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 16px 40px;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    nav a.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 57px);
+      padding: 40px 20px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 60px 80px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      max-width: 680px;
+      width: 100%;
+    }
+
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      opacity: 0.75;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .highlight {
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 2px 10px;
+      font-weight: 600;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="hobbies.html">Hobbies</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="journey.html">My Journey</a>
+    <a href="dashboard.html">Dashboard</a>
+  </nav>
+
+  <div class="page">
+    <div class="card">
+      <div class="icon">🎓</div>
+      <h1>About Me</h1>
+      <p>Hi! My name is <span class="highlight">Abdo</span> and I'm a student on an exciting journey into the world of technology.</p>
+      <p>Right now I'm learning <span class="highlight">Claude Code</span> — an AI-powered coding tool that helps me build real projects faster than ever before.</p>
+      <p>Every day I'm picking up new skills and getting one step closer to becoming a developer.</p>
+    </div>
+  </div>
+</body>
+</html>

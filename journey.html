@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abdo | My Journey</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #2d0057;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 16px 40px;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    nav a.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .page {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: calc(100vh - 57px);
+      padding: 40px 20px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 60px 80px;
+      backdrop-filter: blur(8px);
+      max-width: 680px;
+      width: 100%;
+    }
+
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      opacity: 0.6;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .lessons {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .lesson-card {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 24px 28px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .lesson-card:hover {
+      background-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-4px);
+    }
+
+    .lesson-number {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .lesson-body {
+      flex: 1;
+    }
+
+    .lesson-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .lesson-date {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 8px;
+    }
+
+    .lesson-desc {
+      font-size: 0.95rem;
+      opacity: 0.75;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="hobbies.html">Hobbies</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="journey.html" class="active">My Journey</a>
+    <a href="dashboard.html">Dashboard</a>
+  </nav>
+
+  <div class="page">
+    <div class="card">
+      <div class="icon">🚀</div>
+      <h1>My Journey</h1>
+      <p class="subtitle">Learning Claude Code, one lesson at a time</p>
+
+      <div class="lessons">
+
+        <div class="lesson-card">
+          <div class="lesson-number">1</div>
+          <div class="lesson-body">
+            <div class="lesson-title">Building a Home Page</div>
+            <div class="lesson-date">June 1, 2026</div>
+            <div class="lesson-desc">Created my first HTML page from scratch. Learned how to set a dark purple background, center content with flexbox, and style a welcoming card with rounded corners and a frosted-glass effect.</div>
+          </div>
+        </div>
+
+        <div class="lesson-card">
+          <div class="lesson-number">2</div>
+          <div class="lesson-body">
+            <div class="lesson-title">About Page</div>
+            <div class="lesson-date">June 1, 2026</div>
+            <div class="lesson-desc">Added a second page to the site and linked the two pages together using a navigation bar. Learned how to mark the current page as "active" so the nav always shows where you are.</div>
+          </div>
+        </div>
+
+        <div class="lesson-card">
+          <div class="lesson-number">3</div>
+          <div class="lesson-body">
+            <div class="lesson-title">Hobbies Page</div>
+            <div class="lesson-date">June 1, 2026</div>
+            <div class="lesson-desc">Built a card grid layout using flexbox to display multiple hobby cards side by side. Learned how to add smooth hover animations that lift a card up when you move your mouse over it.</div>
+          </div>
+        </div>
+
+        <div class="lesson-card">
+          <div class="lesson-number">4</div>
+          <div class="lesson-body">
+            <div class="lesson-title">Interactive Quiz App</div>
+            <div class="lesson-date">June 1, 2026</div>
+            <div class="lesson-desc">Added JavaScript to the site for the first time. Built a fully interactive quiz with clickable answer buttons, green/red feedback highlights, automatic question progression, score tracking, and a results screen.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

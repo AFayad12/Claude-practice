@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code Quiz</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #2d0057;
+      color: #f0e6ff;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 16px 32px;
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      color: #d9b8ff;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    nav a.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #e8c8ff;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #b899e0;
+      margin-bottom: 36px;
+      font-size: 1rem;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #9b4dff, #d580ff);
+      border-radius: 8px;
+      transition: width 0.4s ease;
+    }
+
+    .question-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    .question-number {
+      font-size: 0.85rem;
+      color: #b899e0;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #f0e6ff;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .answer-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      color: #e8d8ff;
+      padding: 16px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      line-height: 1.4;
+    }
+
+    .answer-btn:hover:not(:disabled) {
+      background: rgba(155, 77, 255, 0.25);
+      border-color: #9b4dff;
+      transform: translateY(-2px);
+    }
+
+    .answer-btn:disabled {
+      cursor: default;
+    }
+
+    .answer-btn.correct {
+      background: rgba(34, 197, 94, 0.25);
+      border-color: #22c55e;
+      color: #bbf7d0;
+    }
+
+    .answer-btn.wrong {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+      color: #fecaca;
+    }
+
+    .answer-btn.dimmed {
+      opacity: 0.4;
+    }
+
+    /* Results screen */
+    .results-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .score-display {
+      font-size: 5rem;
+      font-weight: 800;
+      color: #d580ff;
+      line-height: 1;
+      margin: 16px 0 8px;
+    }
+
+    .score-label {
+      font-size: 1.1rem;
+      color: #b899e0;
+      margin-bottom: 28px;
+    }
+
+    .score-message {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #e8c8ff;
+      margin-bottom: 32px;
+    }
+
+    .restart-btn {
+      background: linear-gradient(135deg, #7c3aed, #9b4dff);
+      color: #fff;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .restart-btn:hover {
+      opacity: 0.88;
+      transform: translateY(-2px);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="hobbies.html">Hobbies</a>
+    <a href="quiz.html" class="active">Quiz</a>
+    <a href="journey.html">My Journey</a>
+    <a href="dashboard.html">Dashboard</a>
+  </nav>
+
+  <div class="container">
+    <h1>Claude Code Quiz</h1>
+    <p class="subtitle">Test what you know — 5 questions, no pressure!</p>
+
+    <!-- Progress bar -->
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+    </div>
+
+    <!-- Question screen -->
+    <div id="questionScreen" class="question-card">
+      <div class="question-number" id="questionNumber">Question 1 of 5</div>
+      <div class="question-text" id="questionText"></div>
+      <div class="answers" id="answersGrid"></div>
+    </div>
+
+    <!-- Results screen -->
+    <div id="resultsScreen" class="results-card hidden">
+      <div style="font-size: 2.5rem;">🎉</div>
+      <div class="score-display" id="finalScore"></div>
+      <div class="score-label">out of 5</div>
+      <div class="score-message" id="scoreMessage"></div>
+      <button class="restart-btn" onclick="startQuiz()">Play Again</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is Claude Code?",
+        answers: [
+          "A new programming language made by Anthropic",
+          "A CLI tool that lets you code with AI assistance in your terminal",
+          "A code editor similar to VS Code",
+          "A website for looking up coding tutorials"
+        ],
+        correct: 1
+      },
+      {
+        question: "Which company created Claude?",
+        answers: [
+          "OpenAI",
+          "Google",
+          "Microsoft",
+          "Anthropic"
+        ],
+        correct: 3
+      },
+      {
+        question: "What special file does Claude Code read to understand your project's rules and instructions?",
+        answers: [
+          "README.md",
+          "CONFIG.md",
+          "CLAUDE.md",
+          "INSTRUCTIONS.txt"
+        ],
+        correct: 2
+      },
+      {
+        question: "What prefix do you type before a command in the Claude Code chat to run it directly in the terminal?",
+        answers: [
+          "# (hash)",
+          "@ (at sign)",
+          "/ (slash)",
+          "! (exclamation mark)"
+        ],
+        correct: 3
+      },
+      {
+        question: "What does the /clear command do in Claude Code?",
+        answers: [
+          "Deletes all your project files permanently",
+          "Clears the conversation so Claude starts fresh with no memory of the chat",
+          "Uninstalls Claude Code from your computer",
+          "Closes the terminal window"
+        ],
+        correct: 1
+      }
+    ];
+
+    const scoreMessages = [
+      "No worries — every expert started somewhere! Give it another go.",
+      "Good start! A little more practice and you'll nail it.",
+      "Not bad! You know the basics — keep exploring!",
+      "Great job! You clearly know your Claude Code stuff.",
+      "Perfect score! You're a Claude Code pro!"
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      answered = false;
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('questionScreen').classList.remove('hidden');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      answered = false;
+
+      document.getElementById('questionNumber').textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+      document.getElementById('questionText').textContent = q.question;
+
+      const grid = document.getElementById('answersGrid');
+      grid.innerHTML = '';
+
+      q.answers.forEach((text, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'answer-btn';
+        btn.textContent = text;
+        btn.addEventListener('click', () => handleAnswer(index));
+        grid.appendChild(btn);
+      });
+
+      const progress = (currentQuestion / questions.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    function handleAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const q = questions[currentQuestion];
+      const buttons = document.querySelectorAll('.answer-btn');
+
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.correct) {
+          btn.classList.add('correct');
+        } else if (i === selectedIndex && selectedIndex !== q.correct) {
+          btn.classList.add('wrong');
+        } else {
+          btn.classList.add('dimmed');
+        }
+      });
+
+      if (selectedIndex === q.correct) {
+        score++;
+      }
+
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          showQuestion();
+        } else {
+          showResults();
+        }
+      }, 1000);
+    }
+
+    function showResults() {
+      document.getElementById('questionScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.remove('hidden');
+      document.getElementById('progressBar').style.width = '100%';
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('scoreMessage').textContent = scoreMessages[score];
+    }
+
+    startQuiz();
+  </script>
+
+</body>
+</html>
