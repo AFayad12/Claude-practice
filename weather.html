@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abdo | Weather</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #2d0057;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 16px 40px;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    nav a.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .page {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: calc(100vh - 57px);
+      padding: 60px 20px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 48px 56px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      max-width: 480px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .search-row input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-row input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .search-row input:focus {
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-search {
+      padding: 12px 22px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      background: rgba(155, 89, 182, 0.8);
+      color: #ffffff;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-search:hover {
+      background: rgba(155, 89, 182, 1);
+    }
+
+    .btn-search:active {
+      transform: scale(0.97);
+    }
+
+    .status {
+      opacity: 0.65;
+      font-size: 0.95rem;
+      padding: 20px 0;
+    }
+
+    .status.error {
+      color: #ff9b9b;
+      opacity: 1;
+    }
+
+    .result {
+      display: none;
+    }
+
+    .result.visible {
+      display: block;
+    }
+
+    .result-emoji {
+      font-size: 4.5rem;
+      margin-bottom: 8px;
+    }
+
+    .result-city {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .result-condition {
+      opacity: 0.75;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .result-temp {
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .result-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .detail-box {
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .detail-label {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .detail-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="hobbies.html">Hobbies</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="journey.html">My Journey</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="weather.html" class="active">Weather</a>
+  </nav>
+
+  <div class="page">
+    <div class="card">
+      <h1>🌤️ Weather</h1>
+
+      <div class="search-row">
+        <input type="text" id="cityInput" placeholder="Enter a city name..." />
+        <button class="btn-search" onclick="searchWeather()">Search</button>
+      </div>
+
+      <div class="status" id="status">Search for a city to see the current weather.</div>
+
+      <div class="result" id="result">
+        <div class="result-emoji" id="resultEmoji"></div>
+        <div class="result-city" id="resultCity"></div>
+        <div class="result-condition" id="resultCondition"></div>
+        <div class="result-temp" id="resultTemp"></div>
+        <div class="result-details">
+          <div class="detail-box">
+            <div class="detail-label">Humidity</div>
+            <div class="detail-value" id="resultHumidity"></div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">Wind Speed</div>
+            <div class="detail-value" id="resultWind"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const weatherCodeInfo = {
+      0: { label: 'Clear sky', emoji: '☀️' },
+      1: { label: 'Mainly clear', emoji: '🌤️' },
+      2: { label: 'Partly cloudy', emoji: '⛅' },
+      3: { label: 'Overcast', emoji: '☁️' },
+      45: { label: 'Fog', emoji: '🌫️' },
+      48: { label: 'Depositing rime fog', emoji: '🌫️' },
+      51: { label: 'Light drizzle', emoji: '🌦️' },
+      53: { label: 'Moderate drizzle', emoji: '🌦️' },
+      55: { label: 'Dense drizzle', emoji: '🌦️' },
+      56: { label: 'Freezing drizzle', emoji: '🌧️' },
+      57: { label: 'Freezing drizzle', emoji: '🌧️' },
+      61: { label: 'Slight rain', emoji: '🌧️' },
+      63: { label: 'Moderate rain', emoji: '🌧️' },
+      65: { label: 'Heavy rain', emoji: '🌧️' },
+      66: { label: 'Freezing rain', emoji: '🌧️' },
+      67: { label: 'Freezing rain', emoji: '🌧️' },
+      71: { label: 'Slight snow fall', emoji: '❄️' },
+      73: { label: 'Moderate snow fall', emoji: '❄️' },
+      75: { label: 'Heavy snow fall', emoji: '❄️' },
+      77: { label: 'Snow grains', emoji: '❄️' },
+      80: { label: 'Slight rain showers', emoji: '🌦️' },
+      81: { label: 'Moderate rain showers', emoji: '🌦️' },
+      82: { label: 'Violent rain showers', emoji: '🌧️' },
+      85: { label: 'Slight snow showers', emoji: '🌨️' },
+      86: { label: 'Heavy snow showers', emoji: '🌨️' },
+      95: { label: 'Thunderstorm', emoji: '⛈️' },
+      96: { label: 'Thunderstorm with hail', emoji: '⛈️' },
+      99: { label: 'Thunderstorm with hail', emoji: '⛈️' },
+    };
+
+    function getWeatherInfo(code) {
+      return weatherCodeInfo[code] || { label: 'Unknown', emoji: '🌡️' };
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function setStatus(message, isError) {
+      const statusEl = document.getElementById('status');
+      statusEl.textContent = message;
+      statusEl.classList.toggle('error', !!isError);
+      statusEl.style.display = message ? 'block' : 'none';
+    }
+
+    function showResult(show) {
+      document.getElementById('result').classList.toggle('visible', show);
+    }
+
+    async function searchWeather() {
+      const input = document.getElementById('cityInput');
+      const city = input.value.trim();
+      if (!city) {
+        setStatus('Please enter a city name.', true);
+        showResult(false);
+        return;
+      }
+
+      showResult(false);
+      setStatus('Searching...', false);
+
+      try {
+        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`);
+        if (!geoRes.ok) throw new Error('geocoding failed');
+        const geoData = await geoRes.json();
+
+        if (!geoData.results || geoData.results.length === 0) {
+          setStatus(`No city found matching "${city}".`, true);
+          return;
+        }
+
+        const place = geoData.results[0];
+        const { latitude, longitude } = place;
+        const placeName = [place.name, place.admin1, place.country].filter(Boolean).join(', ');
+
+        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&temperature_unit=celsius&wind_speed_unit=kmh`);
+        if (!weatherRes.ok) throw new Error('weather fetch failed');
+        const weatherData = await weatherRes.json();
+        const current = weatherData.current;
+
+        const info = getWeatherInfo(current.weather_code);
+
+        document.getElementById('resultEmoji').textContent = info.emoji;
+        document.getElementById('resultCity').textContent = placeName;
+        document.getElementById('resultCondition').textContent = info.label;
+        document.getElementById('resultTemp').textContent = `${Math.round(current.temperature_2m)}°C`;
+        document.getElementById('resultHumidity').textContent = `${Math.round(current.relative_humidity_2m)}%`;
+        document.getElementById('resultWind').textContent = `${Math.round(current.wind_speed_10m)} km/h`;
+
+        setStatus('', false);
+        showResult(true);
+      } catch (err) {
+        setStatus('Something went wrong fetching the weather. Please try again.', true);
+        showResult(false);
+      }
+    }
+
+    document.getElementById('cityInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') searchWeather();
+    });
+  </script>
+</body>
+</html>
